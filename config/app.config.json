@@ -1,0 +1,59 @@
+{
+  "app": {
+    "name": "Senior HR Coordinator — Operations & Task Command Center",
+    "shortName": "HR Command",
+    "version": "1.0.0",
+    "storageKeys": {
+      "progress": "hrcc.done.v1",
+      "theme": "hrcc.theme",
+      "installDismissed": "hrcc.installDismissed"
+    }
+  },
+  "theme": {
+    "default": "system",
+    "options": ["system", "light", "dark"],
+    "accentPrimary": "#4338ca",
+    "accentSecondary": "#0f766e"
+  },
+  "slaThresholds": {
+    "tier2ResponseHours": 4,
+    "offerLetterTurnaroundHours": 24,
+    "i9Section1": "first day of work",
+    "i9Section2BusinessDays": 3,
+    "fmlaNoticeBusinessDays": 5,
+    "benefitsEnrollmentDays": 30,
+    "erAcknowledgementBusinessDays": 1,
+    "cobraEmployerNoticeDays": 30
+  },
+  "complianceIntervals": {
+    "hrisDataIntegrityAudit": "quarterly",
+    "accessReview": "quarterly",
+    "workAuthorizationReverificationNoticeDays": [90, 60, 30],
+    "oshaPostingWindow": { "start": "02-01", "end": "04-30" },
+    "retentionYears": {
+      "i9": "3 years after hire or 1 year after termination, whichever is later",
+      "flsaPayroll": 3,
+      "flsaTimeCards": 2,
+      "eeocPersonnel": 1,
+      "adeaPayroll": 3,
+      "fmla": 3,
+      "osha": 5,
+      "erisa": 6,
+      "bestPracticeDefault": 7
+    }
+  },
+  "kpiTargets": {
+    "offerLetterTurnaroundHours": 24,
+    "i9ComplianceRatePct": 100,
+    "hrisDataAccuracyPct": 99.5,
+    "onboardingCsat": 4.7,
+    "tier2FirstResponsePct": 95,
+    "prePayrollErrorRatePct": 0.5,
+    "onboardingCompletionDay30Pct": 95,
+    "onTimeFinalPayPct": 100
+  },
+  "ui": {
+    "minTouchTargetPx": 44,
+    "toastDurationMs": 2200
+  }
+}

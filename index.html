@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Senior HR Coordinator — Operations &amp; Task Command Center</title>
+  <meta name="description" content="Interactive Senior HR Coordinator command center: daily task matrix, employee lifecycle SOPs, compliance governance, templates and KPIs. Works offline.">
+  <meta name="theme-color" content="#4338ca" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0f172a" media="(prefers-color-scheme: dark)">
+  <meta name="color-scheme" content="light dark">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Senior HR Coordinator — Operations & Task Command Center">
+  <meta property="og:description" content="Daily task matrix, lifecycle SOPs, compliance governance, templates and KPIs for Senior HR Coordinators.">
+  <meta property="og:image" content="./assets/og-image.png">
+  <meta property="og:url" content="./">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Senior HR Coordinator — Operations & Task Command Center">
+  <meta name="twitter:description" content="Daily task matrix, lifecycle SOPs, compliance governance, templates and KPIs for Senior HR Coordinators.">
+  <meta name="twitter:image" content="./assets/og-image.png">
+
+  <!-- iOS PWA -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="HR Command">
+  <link rel="apple-touch-icon" href="./icon-192.png">
+  <meta name="msapplication-config" content="./browserconfig.xml">
+
+  <link rel="manifest" href="./manifest.json">
+  <link rel="icon" href="./favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" sizes="192x192" href="./icon-192.png">
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to main content</a>
+
+  <header class="app-header" role="banner">
+    <div class="header-inner">
+      <div class="brand">
+        <img src="./assets/logo.svg" alt="" width="36" height="36" class="brand-logo">
+        <div class="brand-text">
+          <h1>HR Command Center</h1>
+          <p>Senior HR Coordinator · Operations &amp; Tasks</p>
+        </div>
+      </div>
+
+      <nav class="top-nav" aria-label="Primary" id="topNav">
+        <div role="tablist" aria-label="Sections" class="tablist" data-tablist>
+          <button role="tab" id="tab-operations" aria-controls="panel-operations" aria-selected="true" tabindex="0" data-tab="operations"><span aria-hidden="true">📋</span> Operations</button>
+          <button role="tab" id="tab-lifecycle" aria-controls="panel-lifecycle" aria-selected="false" tabindex="-1" data-tab="lifecycle"><span aria-hidden="true">🔄</span> Lifecycle</button>
+          <button role="tab" id="tab-compliance" aria-controls="panel-compliance" aria-selected="false" tabindex="-1" data-tab="compliance"><span aria-hidden="true">🛡️</span> Compliance</button>
+          <button role="tab" id="tab-toolkit" aria-controls="panel-toolkit" aria-selected="false" tabindex="-1" data-tab="toolkit"><span aria-hidden="true">🧰</span> Toolkit</button>
+        </div>
+      </nav>
+
+      <div class="header-actions">
+        <button class="btn icon-btn" id="themeToggle" type="button" aria-label="Toggle light and dark theme" title="Toggle theme"><span aria-hidden="true" id="themeIcon">🌙</span></button>
+        <button class="btn icon-btn" id="menuBtn" type="button" aria-label="Progress and export options" aria-haspopup="dialog" title="Progress &amp; export"><span aria-hidden="true">⚙️</span></button>
+      </div>
+    </div>
+    <div id="offlinePill" class="offline-pill" role="status" aria-live="polite" hidden>
+      <span aria-hidden="true">📡</span> <strong>Offline</strong> — changes are saved on this device
+    </div>
+  </header>
+
+  <main id="main" tabindex="-1">
+    <section class="overview" aria-label="Overall progress">
+      <div class="ring-wrap">
+        <svg class="ring" viewBox="0 0 120 120" width="96" height="96" role="img" aria-label="Overall completion" id="overallRing">
+          <circle class="ring-bg" cx="60" cy="60" r="52" fill="none" stroke-width="10"></circle>
+          <circle class="ring-fg" id="ringFg" cx="60" cy="60" r="52" fill="none" stroke-width="10" stroke-linecap="round" transform="rotate(-90 60 60)"></circle>
+          <text x="60" y="66" text-anchor="middle" class="ring-text" id="ringText">0%</text>
+        </svg>
+      </div>
+      <div class="overview-text">
+        <h2>Today's command view</h2>
+        <p id="overviewSummary">Loading progress…</p>
+        <div class="bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="Overall progress" id="overallBar"><span id="overallBarFill"></span></div>
+      </div>
+    </section>
+
+    <section class="controls" aria-label="Search and filters">
+      <label class="search" for="searchInput">
+        <span class="sr-only">Search tasks, SOPs and compliance items</span>
+        <span aria-hidden="true" class="search-icon">🔍</span>
+        <input id="searchInput" type="search" placeholder="Search tasks, SOPs, compliance…" autocomplete="off" enterkeyhint="search">
+      </label>
+      <div class="filters" role="group" aria-label="Filters" id="filters">
+        <div class="pill-group" role="group" aria-label="Priority" id="priorityFilters"></div>
+        <div class="pill-group" role="group" aria-label="Cadence" id="cadenceFilters"></div>
+        <label class="toggle-row"><input type="checkbox" id="hideDone"> <span>Hide completed</span></label>
+      </div>
+    </section>
+
+    <section id="panel-operations" role="tabpanel" aria-labelledby="tab-operations" tabindex="0" class="panel" data-panel="operations"></section>
+    <section id="panel-lifecycle" role="tabpanel" aria-labelledby="tab-lifecycle" tabindex="0" class="panel" data-panel="lifecycle" hidden></section>
+    <section id="panel-compliance" role="tabpanel" aria-labelledby="tab-compliance" tabindex="0" class="panel" data-panel="compliance" hidden></section>
+    <section id="panel-toolkit" role="tabpanel" aria-labelledby="tab-toolkit" tabindex="0" class="panel" data-panel="toolkit" hidden></section>
+
+    <div id="emptyState" class="empty" hidden>
+      <div class="empty-icon" aria-hidden="true">🗂️</div>
+      <h3>No matching items</h3>
+      <p>Nothing matches your current search or filters.</p>
+      <button class="btn primary" type="button" id="clearFilters">Clear all filters</button>
+    </div>
+  </main>
+
+  <footer class="app-footer">
+    <p>Senior HR Coordinator Command Center · Reference guidance only — confirm requirements with Legal/Counsel and current federal, state and local law.</p>
+  </footer>
+
+  <nav class="bottom-nav" aria-label="Primary (mobile)" id="bottomNav">
+    <div role="tablist" aria-label="Sections" class="tablist" data-tablist-mobile>
+      <button role="tab" aria-selected="true" aria-controls="panel-operations" tabindex="0" data-tab="operations"><span class="ico" aria-hidden="true">📋</span><span class="lbl">Ops</span></button>
+      <button role="tab" aria-selected="false" aria-controls="panel-lifecycle" tabindex="-1" data-tab="lifecycle"><span class="ico" aria-hidden="true">🔄</span><span class="lbl">Lifecycle</span></button>
+      <button role="tab" aria-selected="false" aria-controls="panel-compliance" tabindex="-1" data-tab="compliance"><span class="ico" aria-hidden="true">🛡️</span><span class="lbl">Comply</span></button>
+      <button role="tab" aria-selected="false" aria-controls="panel-toolkit" tabindex="-1" data-tab="toolkit"><span class="ico" aria-hidden="true">🧰</span><span class="lbl">Toolkit</span></button>
+    </div>
+  </nav>
+
+  <!-- Install banner -->
+  <aside id="installBanner" class="install-banner" role="complementary" aria-label="Install app" hidden>
+    <div class="install-text">
+      <strong>Install HR Command Center</strong>
+      <span id="installMsg">Add it to your home screen for offline, full-screen use.</span>
+    </div>
+    <div class="install-actions">
+      <button class="btn primary" type="button" id="installBtn" hidden>Install</button>
+      <button class="btn" type="button" id="installDismiss" aria-label="Dismiss install banner">Not now</button>
+    </div>
+  </aside>
+
+  <!-- Settings dialog -->
+  <dialog id="menuDialog" aria-labelledby="menuTitle">
+    <form method="dialog" class="dialog-body">
+      <h2 id="menuTitle">Progress &amp; export</h2>
+      <p class="muted">Your checklists are stored only on this device (localStorage).</p>
+      <div class="dialog-actions">
+        <button class="btn" type="button" id="exportJson">⬇️ Export JSON</button>
+        <button class="btn" type="button" id="exportCsv">⬇️ Export CSV</button>
+        <button class="btn danger" type="button" id="resetAll">♻️ Reset all progress</button>
+        <button class="btn primary" value="close">Close</button>
+      </div>
+    </form>
+  </dialog>
+
+  <div id="toast" class="toast" role="status" aria-live="polite" aria-atomic="true"></div>
+
+  <script src="./script.js"></script>
+</body>
+</html>

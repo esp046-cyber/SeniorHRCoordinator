@@ -1,0 +1,29 @@
+{
+  "name": "Senior HR Coordinator — Operations & Task Command Center",
+  "short_name": "HR Command",
+  "description": "Interactive daily task matrix, employee lifecycle SOPs, compliance governance, templates and KPIs for Senior HR Coordinators.",
+  "id": "./",
+  "start_url": "./index.html?source=pwa",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#0f172a",
+  "theme_color": "#4338ca",
+  "lang": "en",
+  "categories": ["business", "productivity"],
+  "icons": [
+    { "src": "./icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "./icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "./icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ],
+  "screenshots": [
+    { "src": "./screenshots/mobile-view.png", "sizes": "390x844", "type": "image/png", "form_factor": "narrow", "label": "Operations task matrix on mobile" },
+    { "src": "./screenshots/desktop-view.png", "sizes": "1280x800", "type": "image/png", "form_factor": "wide", "label": "Command center on desktop" }
+  ],
+  "shortcuts": [
+    { "name": "Operations", "short_name": "Ops", "url": "./index.html#operations", "icons": [{ "src": "./icon-192.png", "sizes": "192x192" }] },
+    { "name": "Lifecycle", "short_name": "Lifecycle", "url": "./index.html#lifecycle", "icons": [{ "src": "./icon-192.png", "sizes": "192x192" }] },
+    { "name": "Compliance", "short_name": "Comply", "url": "./index.html#compliance", "icons": [{ "src": "./icon-192.png", "sizes": "192x192" }] },
+    { "name": "Toolkit", "short_name": "Toolkit", "url": "./index.html#toolkit", "icons": [{ "src": "./icon-192.png", "sizes": "192x192" }] }
+  ]
+}

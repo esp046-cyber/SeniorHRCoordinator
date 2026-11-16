@@ -1,0 +1,16 @@
+{
+  "name": "senior-hr-coordinator-pwa",
+  "version": "1.0.0",
+  "description": "Senior HR Coordinator Operations & Task Command Center — a zero-dependency installable PWA.",
+  "private": true,
+  "license": "MIT",
+  "main": "script.js",
+  "scripts": {
+    "start": "npx serve .",
+    "serve:python": "python3 -m http.server 8080",
+    "test": "node tests/app.test.js",
+    "validate": "node -e \"JSON.parse(require('fs').readFileSync('manifest.json','utf8'));console.log('manifest.json OK')\""
+  },
+  "keywords": ["hr", "human-resources", "pwa", "onboarding", "compliance", "checklist"],
+  "engines": { "node": ">=18" }
+}

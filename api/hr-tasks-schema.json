@@ -1,0 +1,83 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.com/schemas/hr-tasks-schema.json",
+  "title": "HR Command Center task and compliance payloads",
+  "description": "Payload structures for checklist tasks, progress exports and webhook events. Mirrors the localStorage data model used by script.js.",
+  "$defs": {
+    "priority": { "type": "string", "enum": ["High", "Medium", "Low"] },
+    "owner": { "type": "string", "enum": ["HR Coord", "IT", "Payroll", "Hiring Mgr"] },
+    "tab": { "type": "string", "enum": ["operations", "lifecycle", "compliance"] },
+    "task": {
+      "type": "object",
+      "required": ["id", "tab", "title", "cadence", "priority", "owner"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string", "pattern": "^(ops|life|cmp)-[a-z0-9]+$" },
+        "tab": { "$ref": "#/$defs/tab" },
+        "title": { "type": "string", "minLength": 3 },
+        "detail": { "type": "string" },
+        "cadence": { "type": "string", "examples": ["Daily", "Weekly", "Monthly", "Quarterly", "Bi-annual", "Annual", "Per hire", "Per event", "Ongoing"] },
+        "priority": { "$ref": "#/$defs/priority" },
+        "owner": { "$ref": "#/$defs/owner" },
+        "sla": { "type": "string" },
+        "completed": { "type": "boolean", "default": false }
+      }
+    },
+    "tabProgress": {
+      "type": "object",
+      "required": ["done", "total", "pct"],
+      "properties": {
+        "done": { "type": "integer", "minimum": 0 },
+        "total": { "type": "integer", "minimum": 0 },
+        "pct": { "type": "integer", "minimum": 0, "maximum": 100 }
+      }
+    },
+    "progressExport": {
+      "type": "object",
+      "required": ["exportedAt", "app", "progress", "tasks"],
+      "properties": {
+        "exportedAt": { "type": "string", "format": "date-time" },
+        "app": { "type": "string" },
+        "theme": { "type": ["string", "null"], "enum": ["light", "dark", "", null] },
+        "progress": {
+          "type": "object",
+          "properties": {
+            "operations": { "$ref": "#/$defs/tabProgress" },
+            "lifecycle": { "$ref": "#/$defs/tabProgress" },
+            "compliance": { "$ref": "#/$defs/tabProgress" }
+          }
+        },
+        "tasks": { "type": "array", "items": { "$ref": "#/$defs/task" } }
+      }
+    },
+    "complianceCase": {
+      "type": "object",
+      "required": ["caseId", "category", "openedAt", "status"],
+      "properties": {
+        "caseId": { "type": "string" },
+        "category": { "type": "string", "enum": ["I-9", "FMLA", "ADA", "OSHA", "ER", "Payroll", "Data", "Other"] },
+        "openedAt": { "type": "string", "format": "date-time" },
+        "dueAt": { "type": "string", "format": "date-time" },
+        "status": { "type": "string", "enum": ["open", "in_progress", "escalated", "closed"] },
+        "owner": { "$ref": "#/$defs/owner" },
+        "escalatedTo": { "type": "string", "enum": ["HRBP", "Legal", "Payroll", "None"] },
+        "summary": { "type": "string", "description": "Objective facts only. Do not include SSNs or medical diagnoses." }
+      }
+    },
+    "webhookEvent": {
+      "type": "object",
+      "required": ["event", "timestamp"],
+      "properties": {
+        "event": { "type": "string", "enum": ["task.completed", "sla.breach", "compliance.escalated", "data.discrepancy"] },
+        "timestamp": { "type": "string", "format": "date-time" },
+        "task": { "$ref": "#/$defs/task" },
+        "case": { "$ref": "#/$defs/complianceCase" },
+        "message": { "type": "string" }
+      }
+    }
+  },
+  "oneOf": [
+    { "$ref": "#/$defs/progressExport" },
+    { "$ref": "#/$defs/webhookEvent" }
+  ]
+}
